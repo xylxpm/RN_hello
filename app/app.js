@@ -1,8 +1,6 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * 这是一个简单的结构
- */
+这里是程序入口
+ **/
 
 import React, {Component} from 'react';
 import {
