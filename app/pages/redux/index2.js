@@ -1,5 +1,5 @@
 /**
- * 数据同步：全靠父组件
+ * 数据同步：全靠父组件,不需要别的辅助组件
  */
 import React, {Component} from 'react';
 import {

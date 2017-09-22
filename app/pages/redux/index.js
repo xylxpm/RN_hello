@@ -1,5 +1,6 @@
 /**
  * 独立数据，共享模型层，提供操作接口，加入事件监听。微型的mvi
+ * 需要counter.js   event.js
  */
 import React, {Component} from 'react';
 import {
@@ -8,12 +9,29 @@ import {
     View
 } from 'react-native';
 
+import {on,remove} from  './event';
+import {setValue,getValue} from  './counter';
+
 class Counter1 extends Component{
     constructor(props) {
         super(props);//这一句不能省略，照抄即可
         this.state = {
-            counter:0,
+            counter:getValue()
         };
+
+        this.handler = ((value)=>{
+            this.setState({
+                counter:value
+            })
+        }).bind(this);
+
+    }
+
+    componentDidMount(){
+        on('counter-change',this.handler)
+    }
+    componentWillUnmount(){
+        remove('counter-change',this.handler)
     }
 
 
@@ -27,11 +45,14 @@ class Counter1 extends Component{
     }
 
     addCounter(){
+        setValue(getValue()+1);
         this.setState({
-            counter:this.state.counter+1
+            counter:getValue()
         });
     }
 }
+
+
 
 class Counter2 extends Component{
     constructor(props) {
@@ -39,8 +60,20 @@ class Counter2 extends Component{
         this.state = {
             counter:0,
         };
+        this.handler = ((value)=>{
+            this.setState({
+                counter:value
+            })
+        }).bind(this);
+
     }
 
+    componentDidMount(){
+        on('counter-change',this.handler)
+    }
+    componentWillUnmount(){
+        remove('counter-change',this.handler)
+    }
 
     render(){
         return(
@@ -52,8 +85,9 @@ class Counter2 extends Component{
     }
 
     addCounter(){
+        setValue(getValue()+1);
         this.setState({
-            counter:this.state.counter+1
+            counter:getValue()
         });
     }
 }
