@@ -1,6 +1,5 @@
 /**
- * 带链接池
- * 需要counter.js   event.js   connector.js
+ * 使用了redux的例子，包含action,reducer,store
  */
 import React, {Component} from 'react';
 import {
@@ -9,56 +8,66 @@ import {
     View
 } from 'react-native';
 
-import {on,remove} from  './event';
-import {setValue,getValue} from  './counter';
-import {connector} from './connector';
+import {connect, Provider} from 'react-redux';
+import {plus} from '../../action/action';
+import {getStore} from '../../store/configureStore';
 
-class _Counter1 extends Component{
+const store = getStore();
 
-    render(){
-        return(
+class _Counter1 extends Component {
+
+    render() {
+        return (
             <View style={{flexDirection:'row'}}>
-                <Text style={{fontSize:20,marginRight:20}}>计数器：{this.props.data}</Text>
+                <Text style={{fontSize:20,marginRight:20}}>组件1的计数器：{this.props.calculate.c}</Text>
                 <Text style={{fontSize:20}} onPress={this.addCounter.bind(this)}>点击我</Text>
             </View>
         );
     }
 
-    addCounter(){
-        setValue(getValue()+1);
+    addCounter() {
+        this.props.dispatch(plus(1))
     }
 }
 
 
+class _Counter2 extends Component {
 
-class _Counter2 extends Component{
-
-    render(){
-        return(
+    render() {
+        return (
             <View style={{flexDirection:'row'}}>
-                <Text style={{fontSize:20,marginRight:20}}>计数器：{this.props.data}</Text>
+                <Text style={{fontSize:20,marginRight:20}}>组件2的计数器：{this.props.calculate.c}</Text>
                 <Text style={{fontSize:20}} onPress={this.addCounter.bind(this)}>点击我</Text>
             </View>
         );
     }
 
-    addCounter(){
-        setValue(getValue()+1);
+    addCounter() {
+        this.props.dispatch(plus(1))
     }
 }
 
-let Counter1 = connector('counter-change',_Counter1);
-let Counter2 = connector('counter-change',_Counter2);
+
+const mapStateToProps = state =>{
+    return{
+        calculate:state.calculate
+    }
+}
+
+let Counter1 = connect(mapStateToProps)(_Counter1);
+let Counter2 = connect(mapStateToProps)(_Counter2);
 
 
 class ReduxEX extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <Counter1 />
-                <Counter1 />
-                <Counter2 />
-            </View>
+            <Provider store={store}>
+                <View style={styles.container}>
+                    <Counter1 />
+                    <Counter1 />
+                    <Counter2 />
+                </View>
+            </Provider>
         );
     }
 }
