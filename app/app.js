@@ -10,11 +10,12 @@ import {
 } from 'react-native';
 
 import Redux from './pages/redux/index'
+import WebViewDemo from './pages/webView/index2'
 
 export default class App extends Component {
     render() {
         return (
-            <Redux/>
+            <WebViewDemo/>
         );
     }
 }
