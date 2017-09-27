@@ -11,6 +11,7 @@ import {
 
 import Redux from './pages/redux/index'
 import WebViewDemo from './pages/webView/index2'
+import Other from './pages/other/index'
 
 export default class App extends Component {
     render() {
