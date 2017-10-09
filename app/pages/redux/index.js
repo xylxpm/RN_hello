@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import {connect, Provider} from 'react-redux';
-import {plus} from '../../action/action';
+import {plus,plus_thunk} from '../../action/action';
 import {getStore} from '../../store/configureStore';
 
 const store = getStore();
@@ -26,7 +26,7 @@ class _Counter1 extends Component {
     }
 
     addCounter() {
-        this.props.dispatch(plus(1))
+        this.props.dispatch(plus_thunk(1))
     }
 }
 
@@ -43,7 +43,7 @@ class _Counter2 extends Component {
     }
 
     addCounter() {
-        this.props.dispatch(plus(1))
+        this.props.dispatch(plus_thunk(1))
     }
 }
 
@@ -59,9 +59,31 @@ let Counter2 = connect(mapStateToProps)(_Counter2);
 
 
 class ReduxEX extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            store:null
+        }
+    }
+
+    componentDidMount(){
+        const store = getStore();
+        this.setState({
+            store:store
+        })
+    }
+
     render() {
+        if(!this.state.store){
+            return(
+                <View style={styles.container}>
+                    <Text>正在加载store。。。</Text>
+                </View>
+            )
+        }
+
         return (
-            <Provider store={store}>
+            <Provider store={this.state.store}>
                 <View style={styles.container}>
                     <Counter1 />
                     <Counter1 />

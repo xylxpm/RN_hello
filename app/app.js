@@ -16,7 +16,8 @@ import Other from './pages/other/index'
 export default class App extends Component {
     render() {
         return (
-            <WebViewDemo/>
+
+            <Redux/>
         );
     }
 }
